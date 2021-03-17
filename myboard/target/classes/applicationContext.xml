@@ -9,35 +9,27 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
-
-	<!-- <bean id="tv" class="tommy.spring.polymorphism.SamsungTV"> <property 
-		name="speaker" ref="apple"></property> <property name="price" value="3000000"></property> 
-		</bean> <bean id="sony" class="tommy.spring.polymorphism.SonySpeaker"></bean> 
-		<bean id="apple" class="tommy.spring.polymorphism.AppleSpeaker"></bean> -->
-
-	<!-- <bean id="collectionBean" class="tommy.spring.collection.CollectionBean"> 
-		<property name="addressList"> <list> <value>서울시 서초구 서초동</value> <value>서울시 
-		동대문구 장안동</value> </list> </property> </bean> <bean id="collectionBean" class="tommy.spring.collection.CollectionBean"> 
-		<property name="addressList"> <map> <entry> <key><value>홍길동</value></key> 
-		<value>율도국</value> </entry> <entry> <key><value>손오공</value></key> <value>화과산</value> 
-		</entry> </map> </property> </bean> <bean id="collectionBean" class="tommy.spring.collection.CollectionBean"> 
-		<property name="addressList"> <set value-type="java.lang.String"> <value>서울시 
-		서초구 서초동</value> <value>서울시 동대문구 장안동</value> <value>서울시 동대문구 장안동</value> <value>서울시 
-		동대문구 장안동</value> </set> </property> </bean> <bean id="myLifeBean" class="tommy.spring.lifecycle.MyLifeBeanImpl" 
-		init-method="init"> <property name="greeting"><value>Hello, </value></property> 
-		</bean> <bean class="tommy.spring.lifecycle.CustomBeanPostProcessor" /> -->
+	
+	<context:property-placeholder location="classpath:config/database.properties"/>
+	<bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName"
+			value="${jdbc.driver}" />
+		<property name="url"
+			value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean> 
+<!-- 
 	<context:component-scan	base-package="tommy.spring.web"></context:component-scan>
 	<bean id="userService" class="tommy.spring.web.user.impl.UserServiceImpl">
 		<property name="userDAO" ref="userDAO" />
 	</bean>
 	<bean id="userDAO" class="tommy.spring.web.user.impl.UserDAO"></bean>
 	<context:component-scan base-package="tommy.spring.web"></context:component-scan>
- 		<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
-	<!--  <bean id="around" class="tommy.spring.web.common.AroundAdvice"></bean>
-	<aop:config>
-		<aop:pointcut expression="execution(* tommy.spring.web..*Impl.get*(..))" id="getPointcut" />
-		<aop:aspect ref="around">
-			<aop:around method="aroundLog" pointcut-ref="getPointcut" />
-		</aop:aspect>
-	</aop:config>-->
+ 		<aop:aspectj-autoproxy></aop:aspectj-autoproxy>  -->
 </beans>
